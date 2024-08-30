@@ -5,6 +5,7 @@ from player import Player
 from debug import Debug
 from support import *
 from random import choice
+from armas import Armas
 
 class Level:
     def __init__(self):
@@ -13,6 +14,9 @@ class Level:
         
         self.visible_sprites = YSortCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
+        
+        # sprites de attack
+        self.current_attack = None
     
         self.create_map()
     
@@ -47,7 +51,15 @@ class Level:
         #        if col == 'p':
         #            self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
         
-        self.player = Player((2000, 1430),[self.visible_sprites], self.obstacle_sprites)
+        self.player = Player((2000, 1430),[self.visible_sprites], self.obstacle_sprites, self.create_attack, self.destroy_attack)
+
+    def create_attack(self):
+        self.current_attack = Armas(self.player,[self.visible_sprites])
+    
+    def destroy_attack(self):
+        if self.current_attack:
+            self.current_attack.kill()
+        self.current_attack = None
     
     def run(self):
         self.visible_sprites.custom_draw(self.player)
