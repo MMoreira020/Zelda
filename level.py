@@ -137,6 +137,10 @@ class Level:
 
 	def add_xp(self, amount):
 		self.player.exp += amount
+		arq = open('score.txt', 'w')
+		score = "0"
+		score = self.player.exp
+		arq.write("Score do jogador: " + str(score))
 
 	def toggle_menu(self):
 		
