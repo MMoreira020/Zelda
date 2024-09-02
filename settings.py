@@ -18,11 +18,17 @@ UI_BG_COLOR = '#222222'
 UI_BORDER_COLOR = '#111111'
 TEXT_COLOR = '#EEEEEE'
 
-# cores de interface do usuário
-#UI_BG_COLOR = (50, 50, 50)  # Exemplo de cinza escuro
+
+#UI_BG_COLOR = (50, 50, 50)  # cinza escuro
 HEALTH_COLOR = (255, 0, 0)  # Vermelho
 ENERGY_COLOR = (0, 0, 255)  # Verde
 UI_BORDER_COLOR_ACTIVE = (255, 215, 0) # gold
+
+# menu
+TEXT_COLOR_SELECTED = '#111111'
+BAR_COLOR = '#EEEEEE'
+BAR_COLOR_SELECTED = '#111111'
+UPGRADE_BG_COLOR_SELECTED = '#EEEEEE'
 
 
 # armas
