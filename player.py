@@ -43,9 +43,6 @@ class Player(Entity):
 		self.health = self.stats['health'] * 0.5
 		self.energy = self.stats['energy'] * 0.8
 		self.exp = 0
-		arq = open('score.txt', 'w')
-		score = "0"
-		arq.write("Score do Jogador: " + str(score))
 		
 		self.speed = self.stats['speed']
 

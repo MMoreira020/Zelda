@@ -116,8 +116,7 @@ class Item:
         
         if player.stats[upgrade_attribute] > player.max_stats[upgrade_attribute]:
             player.stats[upgrade_attribute] = player.max_stats[upgrade_attribute]
-        
-    
+            
     def display(self, surface, selection_num, name, value, max_value, cost):
         if self.index == selection_num:
             pygame.draw.rect(surface, UPGRADE_BG_COLOR_SELECTED, self.rect)

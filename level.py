@@ -14,7 +14,6 @@ from upgrade import Upgrade
 
 class Level:
 	def __init__(self):
-
 		# superfície de exibição 
 		self.display_surface = pygame.display.get_surface()
 		self.game_paused = False
@@ -39,6 +38,51 @@ class Level:
 		self.animation_player = AnimationPlayer()
 		self.magic_player = MagicPlayer(self.animation_player)
 
+		self.saved_score = self.load_score()
+  
+	def load_score(self):
+		try:
+			with open('score.txt', 'r') as arq:
+				score = arq.read().split(': ')[-1]
+				return int(score)
+		except (IOError, ValueError) as e:
+			print(f"Erro ao carregar o score: {e}")
+			return 0
+  
+	def pontuacao(self):
+		"""Exibe o score do jogador na tela."""
+		font = pygame.font.Font(None, 40)
+		score_surface = font.render(f'Score do jogador: {self.player.exp}', True, (255, 255, 255))
+		score_rect = score_surface.get_rect(center=(self.display_surface.get_width() // 2, self.display_surface.get_height() // 2))
+  
+		overlay = pygame.Surface(self.display_surface.get_size())
+		overlay.fill((0, 0, 0))
+		overlay.set_alpha(150)
+		self.display_surface.blit(overlay, (0, 0))
+  
+		self.display_surface.blit(score_surface, score_rect)
+		pygame.display.update()
+  
+		pygame.display.update()
+
+		waiting = True
+		while waiting:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					pygame.quit()
+					exit()
+				elif event.type == pygame.KEYDOWN:
+					waiting = False
+  
+	def save_score(self):
+		"""Salva o score do jogador em um arquivo."""
+		try:
+			with open('score.txt', 'w') as arq:
+				arq.write(f"Score do jogador: {self.player.exp}")
+				self.saved_score = self.player.exp 
+		except IOError as e:
+			print(f"Erro ao salvar o score: {e}")
+   
 	def create_map(self):
 		layouts = {
 			'boundary': import_csv_layout('map/map_FloorBlocks.csv'),
@@ -94,6 +138,25 @@ class Level:
          							self.trigger_death_particles,
                 					self.add_xp)
 
+        
+	def reset_level(self):
+		
+		self.save_score()
+  
+		self.player.exp = 0
+		
+		self.visible_sprites.empty()
+		self.obstacle_sprites.empty()
+		self.attack_sprites.empty()
+		self.attackable_sprites.empty()
+  
+		self.create_map()
+  
+		self.ui = UI()
+		self.upgrade = Upgrade(self.player)
+		self.animation_player = AnimationPlayer()
+		self.magic_player = MagicPlayer(self.animation_player)
+	
 	def create_attack(self):
 		
 		self.current_attack = Weapon(self.player,[self.visible_sprites,self.attack_sprites])
@@ -132,15 +195,15 @@ class Level:
 			self.player.hurt_time = pygame.time.get_ticks()
 			self.animation_player.create_particles(attack_type, self.player.rect.center, [self.visible_sprites])
 
+			if self.player.health <= 0:
+				self.pontuacao()
+				self.reset_level()
+				
 	def trigger_death_particles(self, pos, particle_type):
 		self.animation_player.create_particles(particle_type,pos,self.visible_sprites)
 
 	def add_xp(self, amount):
 		self.player.exp += amount
-		arq = open('score.txt', 'w')
-		score = "0"
-		score = self.player.exp
-		arq.write("Score do jogador: " + str(score))
 
 	def toggle_menu(self):
 		
@@ -157,6 +220,9 @@ class Level:
 			self.visible_sprites.enemy_update(self.player)
 			self.player_attack_logic()
 
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+				self.pontuacao()
 
 class YSortCameraGroup(pygame.sprite.Group):
 	def __init__(self):
