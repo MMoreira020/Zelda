@@ -5,7 +5,7 @@ from level import Level
 class Game:
 	def __init__(self):
 
-		# general setup
+		# setupe geral
 		pygame.init()
 		self.screen = pygame.display.set_mode((WIDTH,HEIGTH))
 		pygame.display.set_caption('Zelda')
@@ -13,7 +13,7 @@ class Game:
 
 		self.level = Level()
 
-		# sound 
+		# som 
 		main_sound = pygame.mixer.Sound('som/audio/main.ogg')
 		main_sound.set_volume(0.5)
 		main_sound.play(loops = -1)
