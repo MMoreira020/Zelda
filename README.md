@@ -2,7 +2,7 @@
 
 Uma recriação inspirada no clássico "The Legend of Zelda", desenvolvida inteiramente em Python. Este projeto é um RPG de ação que explora mecânicas de combate, sistema de níveis (XP), gestão de inventário e inteligência artificial de inimigos.
 
-![Preview do Jogo]([https://via.placeholder.com/800x450.png?text=Adicione+aqui+um+screenshot+do+seu+jogo](https://github.com/MMoreira020/Zelda/blob/main/ZELDA.jpg))
+![Preview do Jogo](https://github.com/MMoreira020/Zelda/blob/main/ZELDA.jpg)
 *Legenda: Explore o mapa, derrote inimigos e evolua suas habilidades.*
 
 ## 🎮 Funcionalidades
